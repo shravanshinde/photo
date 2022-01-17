@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Scrolling Pictures</title>
+    <style>
+        body{
+            background-color:blanchedalmond;
+        }
+        body:hover{
+            background-color: pink;
+        }
+
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    width:80vw;
+    height:100vh;
+    margin-left: 150px;  
+}
+
+img{
+    margin:5px;
+    width:200px;
+    height:200px;
+}
+    </style>
+</head>
+<body>
+   <div class="container"> 
+   </div>
+    <script>
+const container = document.querySelector('.container');
+const URL = 'https://dog.ceo/api/breeds/image/random'
+function loadImages(numImages = 10){
+   let i=0;
+    while(i < numImages){
+    fetch('https://dog.ceo/api/breeds/image/random')
+    .then(response=>response.json())
+    .then(data=>{
+    const img =  document.createElement('img');
+    img.src = `${data.message}`
+    container.appendChild(img)
+    })
+    i++;
+    }   
+    }
+
+loadImages();
+window.addEventListener('scroll',()=>{
+    console.log("scrolled", window.scrollY) //scrolled from top
+    console.log(window.innerHeight) //visible part of screen
+    if(window.scrollY + window.innerHeight >= document.documentElement.scrollHeight){
+        loadImages();
+    }
+})
+    </script>
+</body>
+</html>
